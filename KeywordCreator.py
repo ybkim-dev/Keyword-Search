@@ -9,14 +9,14 @@ from sentence_transformers import SentenceTransformer
 class KeywordCreator:
     model_path = "data/model/keyword/keybert"
 
-    def create_keyword(self, model_path="data/model/keyword/keybert"):
-        doc = """
-        토마토는 맛있는 과일이다.
-        과일에는 사과, 귤, 토마토, 망고, 애플망고 등이 있다.
-        토마토는 과일 중에서도 으뜸으로 여러가지 종류로 시중에 판매되고 있다.
-        예를 들면, 토마토 주스, 토마토 잼, 익힌 토마토 등이 있다.
-        최근에는 토마토 축제도 많이 열리고 있으며, 토마토를 이용한 질병치료도 활성화되고 있다.
-        """
+    def create_keyword(self, doc, model_path="data/model/keyword/keybert"):
+        # doc = """
+        # 토마토는 맛있는 과일이다.
+        # 과일에는 사과, 귤, 토마토, 망고, 애플망고 등이 있다.
+        # 토마토는 과일 중에서도 으뜸으로 여러가지 종류로 시중에 판매되고 있다.
+        # 예를 들면, 토마토 주스, 토마토 잼, 익힌 토마토 등이 있다.
+        # 최근에는 토마토 축제도 많이 열리고 있으며, 토마토를 이용한 질병치료도 활성화되고 있다.
+        # """
 
         okt = Okt()
 
