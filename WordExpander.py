@@ -1,5 +1,9 @@
 import gensim
 
+from data.sentimental.SentimentalValidator import SentimentalValidator
+
+sentiment_validator = SentimentalValidator()
+
 class WordExpander:
 
     def get_model(self):
@@ -9,9 +13,15 @@ class WordExpander:
     def expand(self, model, words):
         expanded = []
         for word in words:
-            similar_word = model.wv.most_similar(word, topn=1)
             expanded.append(word)
-            expanded.append(similar_word)
+            try:
+                if sentiment_validator.isSentimental(word):
+                    # 감정 단어인 경우 확장하지 않음
+                    continue
+                similar_word = model.wv.most_similar(word, topn=1)
+                expanded.append(similar_word)
+            except:
+                continue
         return expanded
 
 # wordExpander = WordExpander()

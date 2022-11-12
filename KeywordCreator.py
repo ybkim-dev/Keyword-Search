@@ -41,7 +41,7 @@ class KeywordCreator:
         candidate_embeddings = model.encode(candidates)
 
         top_n = 2
-        keywords = self.mmr(doc_embedding, candidate_embeddings, candidates, top_n=top_n, diversity=0.2)
+        keywords = self.mmr(doc_embedding, candidate_embeddings, candidates, top_n=top_n, diversity=0.1)
         return keywords
 
     def mmr(self, doc_embedding, candidate_embeddings, words, top_n, diversity):
