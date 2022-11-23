@@ -113,5 +113,6 @@ def search():
     return render_template("article_list.html", view_list=view_list)
 
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
