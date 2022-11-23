@@ -23,16 +23,12 @@ class KeywordCreator:
         tokenized_doc = okt.pos(doc)
         tokenized_nouns = ' '.join([word[0] for word in tokenized_doc if word[1] == 'Noun'])
 
-        print('품사 태깅 10개만 출력 :', tokenized_doc[:10])
         print('명사 추출 :', tokenized_nouns)
 
         n_gram_range = (1, 1)
 
         count = CountVectorizer(ngram_range=n_gram_range).fit([tokenized_nouns])
         candidates = count.get_feature_names_out()
-
-        print('단어 개수 :', len(candidates))
-        print('단어 다섯개만 출력 :', candidates[:5])
 
         #model = SentenceTransformer('sentence-transformers/xlm-r-100langs-bert-base-nli-stsb-mean-tokens')
         #model.save(model_path)
