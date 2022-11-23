@@ -51,6 +51,7 @@ def make_index(index_name):
                       })
 
 
+#초기 세팅에는 make_index 주석을 풀어야 함
 #make_index(index_name)
 @app.route('/', methods=['GET'])
 def main_page():
@@ -112,6 +113,41 @@ def search():
     view_list.insert(0, search_result)
     return render_template("article_list.html", view_list=view_list)
 
+
+"""
+기본 검색 방법과 비교를 위한 router
+"""
+
+
+@app.route('/search-vanila', methods=['GET'])
+def vanila_main_page():
+    return render_template('index-vanila.html')
+
+
+@app.route('/search-vanila', methods=['POST'])
+def vanila_search():
+    print(12)
+    view_list = []
+    query = request.form['query']
+
+    expand_results = word_expander.expand(model, [query])
+    print("expand_results", expand_results)
+
+    # elastic search에서 각 expand_results의 원소별로 돌면서 데이터 검색해오기
+    for expand_result in expand_results:
+        # elastic search 에서 검색
+        elastic_result = es.search(index=index_name,
+                                   body={'from': 0, 'size': 100, 'query': {'match': {'content': expand_result}}}
+                                   )['hits']['hits']
+
+        # 어떤 검색어를 통해 검색되었는지 확인
+        for result in elastic_result:
+            result["searchedBy"] = expand_result
+
+        view_list.extend(elastic_result)
+
+    view_list.sort(key=lambda x: x["_score"])
+    return render_template("article_list.html", view_list=view_list)
 
 
 if __name__ == '__main__':
