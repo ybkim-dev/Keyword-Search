@@ -19,16 +19,8 @@ class WordExpander:
                     # 감정 단어인 경우 확장하지 않음
                     continue
                 similar_word = model.wv.most_similar(word, topn=1)
-
-
                 expanded.append(similar_word[0][0])
             except Exception as e:
                 print(e)
                 continue
         return expanded
-
-# wordExpander = WordExpander()
-# model = wordExpander.get_model()
-# expand = wordExpander.expand(model, ["락", "페스티벌"])
-# print(expand)
-

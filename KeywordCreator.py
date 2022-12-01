@@ -19,14 +19,12 @@ class KeywordCreator:
         # """
 
         okt = Okt()
-
+        # 한글 형태소 분석을 통해 Noun 추출
         tokenized_doc = okt.pos(doc)
         tokenized_nouns = ' '.join([word[0] for word in tokenized_doc if word[1] == 'Noun'])
 
-        print('명사 추출 :', tokenized_nouns)
-
         n_gram_range = (1, 1)
-
+        # 1 단어 기준으로 명사에 대해 키워드 추출
         count = CountVectorizer(ngram_range=n_gram_range).fit([tokenized_nouns])
         candidates = count.get_feature_names_out()
 
@@ -40,6 +38,7 @@ class KeywordCreator:
         keywords = self.mmr(doc_embedding, candidate_embeddings, candidates, top_n=top_n, diversity=0.1)
         return keywords
 
+    # 도큐먼트와 관련된 단어를 추출하고 추출된 단어들과 비슷하지 않으면서 도큐먼트와 비슷한 또다른 단어를 찾는 알고리즘
     def mmr(self, doc_embedding, candidate_embeddings, words, top_n, diversity):
         word_doc_similarity = cosine_similarity(candidate_embeddings, doc_embedding)
 
